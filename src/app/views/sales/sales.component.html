@@ -1,0 +1,193 @@
+<div class="container mt-4">
+
+  <div class="card p-4 shadow border-0">
+
+    <h3 class="mb-4">
+      PDV
+    </h3>
+
+    <div class="row">
+
+      <div class="col-md-6">
+
+        <label class="form-label">
+          Produto
+        </label>
+
+        <select
+          class="form-control"
+          [(ngModel)]="produtoSelecionado">
+
+          <option [ngValue]="null">
+            Selecione um produto
+          </option>
+
+          <option
+            *ngFor="let produto of produtos"
+            [ngValue]="produto">
+
+            {{ produto.name }}
+            -
+            Estoque: {{ produto.stock }}
+            -
+            R$ {{ produto.price }}
+
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="col-md-3">
+
+        <label class="form-label">
+          Quantidade
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="quantidade">
+
+      </div>
+
+      <div class="col-md-3 d-flex align-items-end">
+
+        <button
+          class="btn btn-primary w-100"
+          (click)="adicionarProduto()">
+
+          Adicionar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card mt-4 p-4 shadow border-0">
+
+    <div class="d-flex justify-content-between mb-4">
+
+      <h3>
+        Carrinho
+      </h3>
+
+      <h4>
+        Total:
+        <strong>
+          R$ {{ total }}
+        </strong>
+      </h4>
+
+    </div>
+
+    <div class="table-responsive">
+
+      <table class="table table-hover">
+
+        <thead class="table-light">
+
+          <tr>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Preço</th>
+            <th>Subtotal</th>
+            <th></th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of carrinho; let i = index">
+
+            <td>
+              {{ item.name }}
+            </td>
+
+            <td>
+              {{ item.quantity }}
+            </td>
+
+            <td>
+              R$ {{ item.price }}
+            </td>
+
+            <td>
+              R$ {{ item.subtotal }}
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="removerItem(i)">
+
+                Remover
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <button
+      class="btn btn-success mt-3"
+      (click)="finalizarVenda()">
+
+      Finalizar Venda
+
+    </button>
+
+  </div>
+
+  <div class="card mt-4 p-4 shadow border-0">
+
+    <h3 class="mb-4">
+      Histórico de Vendas
+    </h3>
+
+    <table class="table table-hover">
+
+      <thead class="table-light">
+
+        <tr>
+          <th>ID</th>
+          <th>Total</th>
+          <th>Data</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let venda of vendas">
+
+          <td>{{ venda.id }}</td>
+
+          <td>
+            R$ {{ venda.total }}
+          </td>
+
+          <td>
+            {{ venda.createdAt }}
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

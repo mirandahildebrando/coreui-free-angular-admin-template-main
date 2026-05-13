@@ -1,0 +1,142 @@
+<div class="container mt-4">
+
+  <div class="card p-4 shadow border-0">
+
+    <h3 class="mb-4">
+      Cadastro de Produtos
+    </h3>
+
+    <div class="row">
+
+      <div class="col-md-4 mb-3">
+
+        <label class="form-label">
+          Nome do Produto
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="produto.name">
+
+      </div>
+
+      <div class="col-md-4 mb-3">
+
+        <label class="form-label">
+          Preço
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="produto.price">
+
+      </div>
+
+      <div class="col-md-4 mb-3">
+
+        <label class="form-label">
+          Estoque
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="produto.stock">
+
+      </div>
+
+    </div>
+
+    <button
+      class="btn btn-primary mt-2"
+      (click)="salvar()">
+
+      Salvar Produto
+
+    </button>
+
+  </div>
+
+  <div class="card mt-4 p-4 shadow border-0">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h3>
+        Produtos Cadastrados
+      </h3>
+
+      <span class="badge bg-primary">
+        {{ produtos.length }} produtos
+      </span>
+
+    </div>
+
+    <div class="table-responsive">
+
+      <table class="table table-hover align-middle">
+
+        <thead class="table-light">
+
+          <tr>
+            <th>ID</th>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th width="120">
+              Ações
+            </th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let produto of produtos">
+
+            <td>{{ produto.id }}</td>
+
+            <td>
+              {{ produto.name }}
+            </td>
+
+            <td>
+              R$ {{ produto.price }}
+            </td>
+
+            <td>
+
+              <span
+                class="badge"
+                [ngClass]="produto.stock > 5 ? 'bg-success' : 'bg-danger'">
+
+                {{ produto.stock }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="excluir(produto.id)">
+
+                Excluir
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
