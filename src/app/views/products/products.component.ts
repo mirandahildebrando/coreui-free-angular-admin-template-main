@@ -14,6 +14,12 @@ export class ProductsComponent implements OnInit {
 
   produtos: any[] = [];
 
+  salvando = false;
+
+  mensagem = '';
+
+  erro = '';
+
   produto = {
     name: '',
     price: 0,
@@ -40,11 +46,35 @@ export class ProductsComponent implements OnInit {
 
   salvar() {
 
+    if (this.salvando) {
+      return;
+    }
+
+    if (
+      !this.produto.name ||
+      this.produto.price <= 0 ||
+      this.produto.stock < 0
+    ) {
+
+      this.erro = 'Preencha os campos corretamente';
+
+      setTimeout(() => {
+        this.erro = '';
+      }, 3000);
+
+      return;
+    }
+
+    this.salvando = true;
+
+    this.mensagem = '';
+    this.erro = '';
+
     this.service.salvar(this.produto).subscribe({
 
       next: () => {
 
-        alert('Produto cadastrado');
+        this.mensagem = 'Produto cadastrado com sucesso';
 
         this.produto = {
           name: '',
@@ -56,6 +86,23 @@ export class ProductsComponent implements OnInit {
         };
 
         this.listar();
+
+        this.salvando = false;
+
+        setTimeout(() => {
+          this.mensagem = '';
+        }, 3000);
+      },
+
+      error: () => {
+
+        this.erro = 'Erro ao cadastrar produto';
+
+        this.salvando = false;
+
+        setTimeout(() => {
+          this.erro = '';
+        }, 3000);
       }
     });
   }
@@ -63,8 +110,25 @@ export class ProductsComponent implements OnInit {
   excluir(id: number) {
 
     this.service.excluir(id).subscribe({
+
       next: () => {
+
+        this.mensagem = 'Produto excluído';
+
         this.listar();
+
+        setTimeout(() => {
+          this.mensagem = '';
+        }, 3000);
+      },
+
+      error: () => {
+
+        this.erro = 'Erro ao excluir produto';
+
+        setTimeout(() => {
+          this.erro = '';
+        }, 3000);
       }
     });
   }

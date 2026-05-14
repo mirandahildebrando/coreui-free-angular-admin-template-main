@@ -16,12 +16,26 @@ export class RegisterComponent {
   email = '';
   password = '';
 
+  loading = false;
+
+  mensagem = '';
+
+  erro = false;
+
   constructor(
     private service: AuthService,
     private router: Router
   ) {}
 
   register() {
+
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
+
+    this.mensagem = '';
 
     const data = {
       username: this.email,
@@ -30,13 +44,31 @@ export class RegisterComponent {
     };
 
     this.service.register(data).subscribe({
+
       next: () => {
-        alert('Usuário cadastrado!');
-        this.router.navigate(['/login']);
+
+        this.erro = false;
+
+        this.mensagem = 'Usuário cadastrado com sucesso!';
+
+        this.name = '';
+        this.email = '';
+        this.password = '';
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 1500);
+
+        this.loading = false;
       },
 
       error: () => {
-        alert('Erro ao cadastrar');
+
+        this.erro = true;
+
+        this.mensagem = 'Erro ao cadastrar usuário';
+
+        this.loading = false;
       }
     });
   }

@@ -2,9 +2,36 @@
 
   <div class="card p-4 shadow border-0">
 
-    <h3 class="mb-4">
-      PDV
-    </h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h3 class="mb-0">
+        PDV
+      </h3>
+
+      <h4 class="mb-0">
+        Total:
+        <strong class="text-success">
+          R$ {{ total.toFixed(2) }}
+        </strong>
+      </h4>
+
+    </div>
+
+    <div
+      *ngIf="mensagem"
+      class="alert alert-success">
+
+      {{ mensagem }}
+
+    </div>
+
+    <div
+      *ngIf="erro"
+      class="alert alert-danger">
+
+      {{ erro }}
+
+    </div>
 
     <div class="row">
 
@@ -46,6 +73,7 @@
 
         <input
           type="number"
+          min="1"
           class="form-control"
           [(ngModel)]="quantidade">
 
@@ -69,24 +97,13 @@
 
   <div class="card mt-4 p-4 shadow border-0">
 
-    <div class="d-flex justify-content-between mb-4">
-
-      <h3>
-        Carrinho
-      </h3>
-
-      <h4>
-        Total:
-        <strong>
-          R$ {{ total }}
-        </strong>
-      </h4>
-
-    </div>
+    <h3 class="mb-4">
+      Carrinho
+    </h3>
 
     <div class="table-responsive">
 
-      <table class="table table-hover">
+      <table class="table table-hover align-middle">
 
         <thead class="table-light">
 
@@ -101,6 +118,18 @@
         </thead>
 
         <tbody>
+
+          <tr *ngIf="carrinho.length === 0">
+
+            <td
+              colspan="5"
+              class="text-center text-muted">
+
+              Nenhum produto adicionado
+
+            </td>
+
+          </tr>
 
           <tr *ngFor="let item of carrinho; let i = index">
 
@@ -117,7 +146,7 @@
             </td>
 
             <td>
-              R$ {{ item.subtotal }}
+              R$ {{ item.subtotal.toFixed(2) }}
             </td>
 
             <td>
@@ -142,9 +171,16 @@
 
     <button
       class="btn btn-success mt-3"
+      [disabled]="salvando || carrinho.length === 0"
       (click)="finalizarVenda()">
 
-      Finalizar Venda
+      <span *ngIf="!salvando">
+        Finalizar Venda
+      </span>
+
+      <span *ngIf="salvando">
+        Finalizando...
+      </span>
 
     </button>
 
@@ -152,41 +188,57 @@
 
   <div class="card mt-4 p-4 shadow border-0">
 
-    <h3 class="mb-4">
-      Histórico de Vendas
-    </h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-    <table class="table table-hover">
+      <h3 class="mb-0">
+        Histórico de Vendas
+      </h3>
 
-      <thead class="table-light">
+      <span class="badge bg-primary">
 
-        <tr>
-          <th>ID</th>
-          <th>Total</th>
-          <th>Data</th>
-        </tr>
+        {{ vendas.length }} vendas
 
-      </thead>
+      </span>
 
-      <tbody>
+    </div>
 
-        <tr *ngFor="let venda of vendas">
+    <div class="table-responsive">
 
-          <td>{{ venda.id }}</td>
+      <table class="table table-hover">
 
-          <td>
-            R$ {{ venda.total }}
-          </td>
+        <thead class="table-light">
 
-          <td>
-            {{ venda.createdAt }}
-          </td>
+          <tr>
+            <th>ID</th>
+            <th>Total</th>
+            <th>Data</th>
+          </tr>
 
-        </tr>
+        </thead>
 
-      </tbody>
+        <tbody>
 
-    </table>
+          <tr *ngFor="let venda of vendas">
+
+            <td>
+              {{ venda.id }}
+            </td>
+
+            <td class="text-success fw-bold">
+              R$ {{ venda.total }}
+            </td>
+
+            <td>
+              {{ venda.createdAt | date:'dd/MM/yyyy HH:mm' }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
 
   </div>
 

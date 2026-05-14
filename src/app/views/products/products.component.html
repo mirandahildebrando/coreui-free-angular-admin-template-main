@@ -2,9 +2,35 @@
 
   <div class="card p-4 shadow border-0">
 
-    <h3 class="mb-4">
-      Cadastro de Produtos
-    </h3>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+      <h3 class="mb-0">
+        Cadastro de Produtos
+      </h3>
+
+      <span class="badge bg-primary">
+
+        {{ produtos.length }} produtos
+
+      </span>
+
+    </div>
+
+    <div
+      *ngIf="mensagem"
+      class="alert alert-success">
+
+      {{ mensagem }}
+
+    </div>
+
+    <div
+      *ngIf="erro"
+      class="alert alert-danger">
+
+      {{ erro }}
+
+    </div>
 
     <div class="row">
 
@@ -51,9 +77,16 @@
 
     <button
       class="btn btn-primary mt-2"
+      [disabled]="salvando"
       (click)="salvar()">
 
-      Salvar Produto
+      <span *ngIf="!salvando">
+        Salvar Produto
+      </span>
+
+      <span *ngIf="salvando">
+        Salvando...
+      </span>
 
     </button>
 
@@ -61,17 +94,9 @@
 
   <div class="card mt-4 p-4 shadow border-0">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-      <h3>
-        Produtos Cadastrados
-      </h3>
-
-      <span class="badge bg-primary">
-        {{ produtos.length }} produtos
-      </span>
-
-    </div>
+    <h3 class="mb-4">
+      Produtos Cadastrados
+    </h3>
 
     <div class="table-responsive">
 
@@ -93,11 +118,25 @@
 
         <tbody>
 
+          <tr *ngIf="produtos.length === 0">
+
+            <td
+              colspan="5"
+              class="text-center text-muted">
+
+              Nenhum produto cadastrado
+
+            </td>
+
+          </tr>
+
           <tr *ngFor="let produto of produtos">
 
-            <td>{{ produto.id }}</td>
-
             <td>
+              {{ produto.id }}
+            </td>
+
+            <td class="fw-semibold">
               {{ produto.name }}
             </td>
 

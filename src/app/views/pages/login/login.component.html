@@ -4,15 +4,26 @@
 
     <div class="col-md-4">
 
-      <div class="card p-4 shadow">
+      <div class="card p-4 shadow border-0">
 
         <h2 class="mb-4 text-center">
           Login
         </h2>
 
+        <div
+          *ngIf="mensagem"
+          class="alert"
+          [ngClass]="erro ? 'alert-danger' : 'alert-success'">
+
+          {{ mensagem }}
+
+        </div>
+
         <div class="mb-3">
 
-          <label>Email</label>
+          <label class="form-label">
+            Email
+          </label>
 
           <input
             type="email"
@@ -23,7 +34,9 @@
 
         <div class="mb-3">
 
-          <label>Senha</label>
+          <label class="form-label">
+            Senha
+          </label>
 
           <input
             type="password"
@@ -34,9 +47,10 @@
 
         <button
           class="btn btn-primary w-100"
+          [disabled]="loading"
           (click)="login()">
 
-          Entrar
+          {{ loading ? 'Entrando...' : 'Entrar' }}
 
         </button>
 

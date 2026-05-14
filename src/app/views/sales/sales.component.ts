@@ -25,6 +25,12 @@ export class SalesComponent implements OnInit {
 
   total = 0;
 
+  salvando = false;
+
+  mensagem = '';
+
+  erro = '';
+
   constructor(
     private saleService: SaleService,
     private productService: ProductService
@@ -92,52 +98,86 @@ export class SalesComponent implements OnInit {
 
   finalizarVenda() {
 
-  const items = this.carrinho.map(item => {
-
-    return {
-
-      quantity: item.quantity,
-
-      price: item.price,
-
-      product: {
-        id: item.id
-      }
-    };
-  });
-
-  const venda = {
-
-    total: this.total,
-
-    createdAt: new Date().toISOString(),
-
-    company: {
-      id: 1
-    },
-
-    items: items
-  };
-
-  this.saleService.salvar(venda).subscribe({
-
-    next: () => {
-
-      alert('Venda realizada');
-
-      this.carrinho = [];
-
-      this.total = 0;
-
-      this.listarVendas();
-    },
-
-    error: (err) => {
-
-      console.log(err);
-
-      alert('Erro ao salvar venda');
+    if (this.salvando) {
+      return;
     }
-  });
-}
+
+    if (this.carrinho.length === 0) {
+
+      this.erro = 'Adicione produtos na venda';
+
+      setTimeout(() => {
+        this.erro = '';
+      }, 3000);
+
+      return;
+    }
+
+    this.salvando = true;
+
+    this.mensagem = '';
+    this.erro = '';
+
+    const items = this.carrinho.map(item => {
+
+      return {
+
+        quantity: item.quantity,
+
+        price: item.price,
+
+        product: {
+          id: item.id
+        }
+      };
+    });
+
+    const venda = {
+
+      total: this.total,
+
+      createdAt: new Date().toISOString(),
+
+      company: {
+        id: 1
+      },
+
+      items: items
+    };
+
+    this.saleService.salvar(venda).subscribe({
+
+      next: () => {
+
+        this.mensagem = 'Venda realizada com sucesso';
+
+        this.carrinho = [];
+
+        this.total = 0;
+
+        this.produtoSelecionado = null;
+
+        this.listarVendas();
+
+        this.salvando = false;
+
+        setTimeout(() => {
+          this.mensagem = '';
+        }, 3000);
+      },
+
+      error: (err) => {
+
+        console.log(err);
+
+        this.erro = 'Erro ao salvar venda';
+
+        this.salvando = false;
+
+        setTimeout(() => {
+          this.erro = '';
+        }, 3000);
+      }
+    });
+  }
 }

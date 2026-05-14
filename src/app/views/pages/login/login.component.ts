@@ -15,12 +15,26 @@ export class LoginComponent {
   email = '';
   password = '';
 
+  loading = false;
+
+  mensagem = '';
+
+  erro = false;
+
   constructor(
     private service: AuthService,
     private router: Router
   ) {}
 
   login() {
+
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
+
+    this.mensagem = '';
 
     const data = {
       username: this.email,
@@ -33,13 +47,24 @@ export class LoginComponent {
 
         localStorage.setItem('token', 'logado');
 
-        alert('Login válido');
+        this.erro = false;
 
-        this.router.navigate(['/dashboard']);
+        this.mensagem = 'Login realizado com sucesso!';
+
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1000);
+
+        this.loading = false;
       },
 
       error: () => {
-        alert('Login inválido');
+
+        this.erro = true;
+
+        this.mensagem = 'Email ou senha inválidos';
+
+        this.loading = false;
       }
     });
   }
