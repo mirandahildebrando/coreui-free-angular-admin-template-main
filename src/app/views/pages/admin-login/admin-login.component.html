@@ -7,7 +7,7 @@
       <div class="card p-4 shadow border-0">
 
         <h2 class="mb-4 text-center">
-          Cadastro
+          Login Administrador
         </h2>
 
         <div
@@ -22,20 +22,7 @@
         <div class="mb-3">
 
           <label class="form-label">
-            Nome da Empresa
-          </label>
-
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="name">
-
-        </div>
-
-        <div class="mb-3">
-
-          <label class="form-label">
-            Email
+            Email Admin
           </label>
 
           <input
@@ -59,21 +46,11 @@
         </div>
 
         <button
-          class="btn btn-success w-100"
+          class="btn btn-dark w-100"
           [disabled]="loading"
-          (click)="register()">
+          (click)="login()">
 
-          {{ loading ? 'Cadastrando...' : 'Cadastrar' }}
-
-        </button>
-
-        <hr>
-
-        <button
-          class="btn btn-outline-primary w-100"
-          routerLink="/login">
-
-          Voltar para login
+          {{ loading ? 'Entrando...' : 'Entrar como Admin' }}
 
         </button>
 

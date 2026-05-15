@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-admin-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './register.component.html'
+  imports: [CommonModule, FormsModule],
+  templateUrl: './admin-login.component.html'
 })
-export class RegisterComponent {
+export class AdminLoginComponent {
 
-  name = '';
   email = '';
+
   password = '';
 
   loading = false;
@@ -27,7 +27,7 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  register() {
+  login() {
 
     if (this.loading) {
       return;
@@ -39,25 +39,22 @@ export class RegisterComponent {
 
     const data = {
       username: this.email,
-      companyName: this.name,
       password: this.password
     };
 
-    this.service.register(data).subscribe({
+    this.service.adminLogin(data).subscribe({
 
       next: () => {
 
+        localStorage.setItem('token', 'admin-logado');
+
         this.erro = false;
 
-        this.mensagem = 'Usuário cadastrado com sucesso!';
-
-        this.name = '';
-        this.email = '';
-        this.password = '';
+        this.mensagem = 'Login admin realizado com sucesso!';
 
         setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
+          this.router.navigate(['/dashboard']);
+        }, 1000);
 
         this.loading = false;
       },
@@ -66,7 +63,7 @@ export class RegisterComponent {
 
         this.erro = true;
 
-        this.mensagem = 'Erro ao cadastrar usuário';
+        this.mensagem = 'Admin inválido';
 
         this.loading = false;
       }
