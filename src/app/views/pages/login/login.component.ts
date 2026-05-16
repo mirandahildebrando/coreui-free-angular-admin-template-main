@@ -52,7 +52,7 @@ export class LoginComponent {
         this.mensagem = 'Login realizado com sucesso!';
 
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/login']);
         }, 1000);
 
         this.loading = false;
