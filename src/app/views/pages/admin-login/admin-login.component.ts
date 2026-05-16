@@ -24,11 +24,10 @@ import { AuthService } from '../../../services/auth.service';
             </h2>
 
             <div
-              *ngIf="mensagem"
-              class="alert"
-              [ngClass]="erro ? 'alert-danger' : 'alert-success'">
+              *ngIf="erro"
+              class="alert alert-danger">
 
-              {{ mensagem }}
+              Admin inválido
 
             </div>
 
@@ -85,8 +84,6 @@ export class AdminLoginComponent {
 
   loading = false;
 
-  mensagem = '';
-
   erro = false;
 
   constructor(
@@ -102,7 +99,7 @@ export class AdminLoginComponent {
 
     this.loading = true;
 
-    this.mensagem = '';
+    this.erro = false;
 
     const data = {
       username: this.email,
@@ -115,24 +112,14 @@ export class AdminLoginComponent {
 
         localStorage.setItem('token', 'admin-logado');
 
-        this.erro = false;
-
-        this.mensagem = 'Login admin realizado com sucesso!';
-
-        setTimeout(() => {
-
-          this.router.navigate(['/admin/dashboard']);
-
-        }, 1000);
-
         this.loading = false;
+
+        this.router.navigate(['/admin/dashboard']);
       },
 
       error: () => {
 
         this.erro = true;
-
-        this.mensagem = 'Admin inválido';
 
         this.loading = false;
       }
