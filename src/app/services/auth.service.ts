@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,11 +15,8 @@ export class AuthService {
   login(data: any): Observable<any> {
 
     return this.http.post(
-
       `${this.API}/auth/login`,
-
       data,
-
       { responseType: 'text' as 'json' }
     );
   }
@@ -29,23 +24,8 @@ export class AuthService {
   adminLogin(data: any): Observable<any> {
 
     return this.http.post(
-
       `${this.API}/auth/admin/login`,
-
       data,
-
-      { responseType: 'text' as 'json' }
-    );
-  }
-
-  register(data: any): Observable<any> {
-
-    return this.http.post(
-
-      `${this.API}/auth/register`,
-
-      data,
-
       { responseType: 'text' as 'json' }
     );
   }
