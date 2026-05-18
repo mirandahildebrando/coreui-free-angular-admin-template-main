@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "dist/coreui-free-angular-admin-template/browser",
   "rewrites": [
     {
       "source": "/(.*)",
